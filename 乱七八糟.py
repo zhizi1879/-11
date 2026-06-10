@@ -25,7 +25,7 @@ def init_session_state():
     if "tree_hole_messages" not in st.session_state:
         st.session_state["tree_hole_messages"] = []
     if "current_page" not in st.session_state:
-        st.session_state["current_page"] = "  # 首页"
+        st.session_state["current_page"] = "首页"
 
 
 init_session_state()
@@ -444,7 +444,7 @@ page_map = {  # 页面映射 = {
 if st.session_state.current_page == "首页":
     show_home()
 else:
-    page_map[st.session_state.current_page]()      # 页面映射[状态.会话状态.当前页面]()
+    page_map.get(st.session_state.current_page, show_home)()
     st.markdown("---")
     if st.button("🏠 返回首页", key="btn_back_home_global", use_container_width=False):
         st.session_state.current_page = "首页"
