@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import streamlit as st
 import plotly.graph_objects as go
 import time
@@ -42,62 +44,90 @@ def get_audio_bytes(file_path):
         return None
 
 def show_home():
-    # 头部标题区域
     st.markdown("""
-    <div style='text-align:center;padding:50px 20px 30px;background: linear-gradient(135deg, #f5f7ff 0%, #f0f4ff 100%);border-radius:16px;margin-bottom:30px;'>
+    <div style='text-align:center;padding:60px 20px 40px;'>
         <div style='font-size:5em;margin-bottom:20px;'>🧘‍♀️</div>
-        <h1 style='font-size:2.4em;margin:0 0 12px 0;color:#2c2478;font-weight:600;'>规培生正念解压站</h1>
-        <p style='font-size:1.15em;color:#555872;margin:0 0 8px 0;'>遵义医科大学 · 规培生心理支持系统</p>
-        <p style='font-size:1em;color:#8084a3;margin:0;'>累了就来坐坐，这里没有考核，只有温柔陪伴 🌿</p>
+        <h1 style='font-size:2.2em;margin-bottom:10px;color:#1e1b4b;'>规培生正念解压站</h1>
+        <p style='font-size:1.1em;color:#6b7280;margin-bottom:8px;'>遵义医科大学 · 规培生心理支持系统</p>
+        <p style='font-size:0.95em;color:#9ca3af;margin-bottom:50px;'>累了就来坐坐，这里没有考核 🌿</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # 功能模块卡片
-    cols = st.columns(3)
+    # 功能列表：重新搭配趣味emoji + 分组配色
     modules = [
-        ("📋", "情绪识别小助手", "PHQ-9 + GAD-7 专业测评\n2分钟了解你的情绪状态", "📋 情绪识别小助手"),
-        ("🧘", "规培间隙的放松", "呼吸法 · 身体扫描 · 正念倾听\n给自己3分钟放空", "🧘 规培间隙的放松"),
-        ("📝", "工作情绪存档", "记录每日心情\n用数据看见情绪变化", "📝 工作情绪存档"),
-        ("🌳", "医护吐槽安全屋", "完全匿名树洞\n说出来会好受一点", "🌳 医护吐槽安全屋"),
-        ("📚", "情绪急救科普册", "规培生必知心理知识\n3分钟学会自我调节", "📚 情绪急救科普册"),
-        ("🏆", "抗压升级日志", "打卡 · 徽章 · 成长等级\n见证你的每一步蜕变", "🏆 抗压升级日志"),
+        {
+            "icon": "📊",
+            "title": "情绪识别小助手",
+            "desc": "PHQ-9+GAD-7 专业测评\n摸清当下情绪状态",
+            "page": "📋 情绪识别小助手",
+            "color": "#e0e7ff"
+        },
+        {
+            "icon": "🍃",
+            "title": "规培间隙的放松",
+            "desc": "呼吸/冥想/身体扫描\n3分钟一键放空",
+            "page": "🧘 规培间隙的放松",
+            "color": "#dcfce7"
+        },
+        {
+            "icon": "📔",
+            "title": "工作情绪存档",
+            "desc": "每日心情打卡\n用曲线记录喜怒哀乐",
+            "page": "📝 工作情绪存档",
+            "color": "#fffbeb"
+        },
+        {
+            "icon": "🌲",
+            "title": "医护吐槽安全屋",
+            "desc": "匿名暖心树洞\n烦恼说出来就轻松啦",
+            "page": "🌳 医护吐槽安全屋",
+            "color": "#fef2f2"
+        },
+        {
+            "icon": "📖",
+            "title": "情绪急救科普册",
+            "desc": "实用心理小知识\n学会好好关照自己",
+            "page": "📚 情绪急救科普册",
+            "color": "#f0fdf4"
+        },
+        {
+            "icon": "🏅",
+            "title": "抗压升级日志",
+            "desc": "坚持打卡升级\n解锁专属荣誉徽章",
+            "page": "🏆 抗压升级日志",
+            "color": "#fef3c7"
+        }
     ]
 
-    # 循环渲染精致卡片按钮
-    for i, (icon, title, desc, page_name) in enumerate(modules):
-        with cols[i % 3]:
-            # 自定义卡片样式 + 原生按钮嵌套，保留跳转逻辑
-            card_html = f"""
+    cols = st.columns(3)
+    for idx, item in enumerate(modules):
+        with cols[idx % 3]:
+            # 自定义卡片样式
+            st.markdown(f"""
             <div style="
-                background:#ffffff;
-                border-radius:14px;
-                padding:24px 18px;
-                margin-bottom:18px;
-                box-shadow: 0 4px 12px rgba(44, 36, 120, 0.08);
-                border:1px solid #e8ebf8;
-                transition: all 0.25s ease;
-                text-align:center;
+                background-color: {item['color']};
+                padding: 25px 15px;
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                text-align: center;
+                margin-bottom: 20px;
+                transition: transform 0.2s ease;
             "
-            onmouseover="this.style.boxShadow='0 8px 20px rgba(44, 36, 120, 0.12)';this.style.transform='translateY(-4px)';"
-            onmouseout="this.style.boxShadow='0 4px 12px rgba(44, 36, 120, 0.08)';this.style.transform='translateY(0)';">
-                <div style="font-size:2.8em;margin-bottom:12px;">{icon}</div>
-                <div style="font-size:1.2em;font-weight:600;color:#2c2478;margin-bottom:8px;">{title}</div>
-                <div style="font-size:0.9em;color:#6b7280;line-height:1.6;">{desc}</div>
+            onmouseover="this.style.transform='translateY(-5px)'"
+            onmouseout="this.style.transform='translateY(0)'">
+                <div style="font-size: 2.8em; margin-bottom: 12px;">{item['icon']}</div>
+                <div style="font-size: 1.2em; font-weight: 600; color: #1f2937; margin-bottom: 8px;">{item['title']}</div>
+                <div style="font-size: 0.9em; color: #4b5563; line-height: 1.5;">{item['desc']}</div>
             </div>
-            """
-            st.markdown(card_html, unsafe_allow_html=True)
-            # 隐形按钮承接点击跳转，铺满卡片区域
-            if st.button("进入", key=f"home_btn_{i}", use_container_width=True):
-                st.session_state.current_page = page_name
-                st.rerun()
+            """, unsafe_allow_html=True)
+            if st.button("立即进入", key=f"home_btn_{idx}", use_container_width=True):
+                st.session_state.current_page = item["page"]
+                st.experimental_rerun()
 
-    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
-    # 底部提示栏
     st.markdown("""
-    <div style='text-align:center;padding:20px 0 20px;color:#8084a3;font-size:0.9em;line-height:1.7;'>
-        💡 本系统仅供减压参考，不构成医学建议<br>
-        若情绪持续困扰，请咨询心理健康中心：28643572
+    <div style='text-align:center;padding:20px 0 40px;color:#9ca3af;font-size:0.85em;'>
+        💡 本系统仅供减压参考，不构成医学建议 · 持续困扰请咨询心理健康中心 28643572
     </div>
     """, unsafe_allow_html=True)
 
