@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 import streamlit as st
 import plotly.graph_objects as go
 import time
@@ -53,7 +51,6 @@ def show_home():
     </div>
     """, unsafe_allow_html=True)
 
-    # 功能列表：重新搭配趣味emoji + 分组配色
     modules = [
         {
             "icon": "📊",
@@ -102,19 +99,16 @@ def show_home():
     cols = st.columns(3)
     for idx, item in enumerate(modules):
         with cols[idx % 3]:
-            # 自定义卡片样式
+            # 已删除 JS 悬浮事件，纯内联样式，线上稳定渲染
             st.markdown(f"""
             <div style="
                 background-color: {item['color']};
                 padding: 25px 15px;
                 border-radius: 16px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.12);
                 text-align: center;
                 margin-bottom: 20px;
-                transition: transform 0.2s ease;
-            "
-            onmouseover="this.style.transform='translateY(-5px)'"
-            onmouseout="this.style.transform='translateY(0)'">
+            ">
                 <div style="font-size: 2.8em; margin-bottom: 12px;">{item['icon']}</div>
                 <div style="font-size: 1.2em; font-weight: 600; color: #1f2937; margin-bottom: 8px;">{item['title']}</div>
                 <div style="font-size: 0.9em; color: #4b5563; line-height: 1.5;">{item['desc']}</div>
@@ -122,7 +116,7 @@ def show_home():
             """, unsafe_allow_html=True)
             if st.button("立即进入", key=f"home_btn_{idx}", use_container_width=True):
                 st.session_state.current_page = item["page"]
-                st.experimental_rerun()
+                st.rerun()
 
     st.markdown("---")
     st.markdown("""

@@ -53,21 +53,76 @@ def show_home():
     </div>
     """, unsafe_allow_html=True)
 
-    cols = st.columns(3)
+    # 功能列表：重新搭配趣味emoji + 分组配色
     modules = [
-        ("📋", "情绪识别小助手", "PHQ-9 + GAD-7 专业测评\n2分钟了解你的情绪状态", "📋 情绪识别小助手"),
-        ("🧘", "规培间隙的放松", "呼吸法 · 身体扫描 · 正念倾听\n给自己3分钟", "🧘 规培间隙的放松"),
-        ("📝", "工作情绪存档", "记录每日心情\n用数据看见情绪变化", "📝 工作情绪存档"),
-        ("🌳", "医护吐槽安全屋", "完全匿名树洞\n说出来会好受一点", "🌳 医护吐槽安全屋"),
-        ("📚", "情绪急救科普册", "规培生必知心理知识\n3分钟能改变什么", "📚 情绪急救科普册"),
-        ("🏆", "抗压升级日志", "打卡 · 徽章 · 等级\n见证你的每一步成长", "🏆 抗压升级日志"),
+        {
+            "icon": "📊",
+            "title": "情绪识别小助手",
+            "desc": "PHQ-9+GAD-7 专业测评\n摸清当下情绪状态",
+            "page": "📋 情绪识别小助手",
+            "color": "#e0e7ff"
+        },
+        {
+            "icon": "🍃",
+            "title": "规培间隙的放松",
+            "desc": "呼吸/冥想/身体扫描\n3分钟一键放空",
+            "page": "🧘 规培间隙的放松",
+            "color": "#dcfce7"
+        },
+        {
+            "icon": "📔",
+            "title": "工作情绪存档",
+            "desc": "每日心情打卡\n用曲线记录喜怒哀乐",
+            "page": "📝 工作情绪存档",
+            "color": "#fffbeb"
+        },
+        {
+            "icon": "🌲",
+            "title": "医护吐槽安全屋",
+            "desc": "匿名暖心树洞\n烦恼说出来就轻松啦",
+            "page": "🌳 医护吐槽安全屋",
+            "color": "#fef2f2"
+        },
+        {
+            "icon": "📖",
+            "title": "情绪急救科普册",
+            "desc": "实用心理小知识\n学会好好关照自己",
+            "page": "📚 情绪急救科普册",
+            "color": "#f0fdf4"
+        },
+        {
+            "icon": "🏅",
+            "title": "抗压升级日志",
+            "desc": "坚持打卡升级\n解锁专属荣誉徽章",
+            "page": "🏆 抗压升级日志",
+            "color": "#fef3c7"
+        }
     ]
 
-    for i, (icon, title, desc, page_name) in enumerate(modules):
-        with cols[i % 3]:
-            if st.button(f"{icon}  {title}", key=f"home_btn_{i}", use_container_width=True):
-                st.session_state.current_page = page_name
-                st.rerun()
+    cols = st.columns(3)
+    for idx, item in enumerate(modules):
+        with cols[idx % 3]:
+            # 自定义卡片样式
+            st.markdown(f"""
+            <div style="
+                background-color: {item['color']};
+                padding: 25px 15px;
+                border-radius: 16px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                text-align: center;
+                margin-bottom: 20px;
+                transition: transform 0.2s ease;
+            "
+            onmouseover="this.style.transform='translateY(-5px)'"
+            onmouseout="this.style.transform='translateY(0)'">
+                <div style="font-size: 2.8em; margin-bottom: 12px;">{item['icon']}</div>
+                <div style="font-size: 1.2em; font-weight: 600; color: #1f2937; margin-bottom: 8px;">{item['title']}</div>
+                <div style="font-size: 0.9em; color: #4b5563; line-height: 1.5;">{item['desc']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button("立即进入", key=f"home_btn_{idx}", use_container_width=True):
+                st.session_state.current_page = item["page"]
+                st.experimental_rerun()
 
     st.markdown("---")
     st.markdown("""
